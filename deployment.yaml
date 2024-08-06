@@ -17,7 +17,7 @@ services:
     # serviceName - Name of the ECS service
     serviceName: definitiv-dev-webapp-service
     # image - New image that you want to deploy.
-    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloapi:b11b462aaf278a76dcb37bc336b391dad39495c7"
+    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloapi:974545ca7bc47a4738726042f536fee968985df5"
 
     #service - must match the container name in the task definition
   - service: helloworker
@@ -26,7 +26,7 @@ services:
     # serviceName - Name of the ECS service
     serviceName: definitiv-dev-background-service-service
     # image - New image that you want to deploy.
-    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloworker:b11b462aaf278a76dcb37bc336b391dad39495c7"
+    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloworker:974545ca7bc47a4738726042f536fee968985df5"
 
   #service - must match the container name in the task definition
   - service: redis
