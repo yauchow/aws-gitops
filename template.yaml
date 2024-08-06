@@ -404,15 +404,15 @@ Resources:
                   - s3:GetObject
                   - s3:GetObjectVersion
                   - s3:GetBucketVersioning
-              - Effect: Allow
-                Action:
-                  - codecommit:GetBranch
-                  - codecommit:GetCommit
-                  - codecommit:UploadArchive
-                  - codecommit:GetUploadArchiveStatus
-                  - codecommit:CancelUploadArchive
-                Resource:
-                  - !GetAtt CodeCommit.Arn
+              # - Effect: Allow
+              #   Action:
+              #     - codecommit:GetBranch
+              #     - codecommit:GetCommit
+              #     - codecommit:UploadArchive
+              #     - codecommit:GetUploadArchiveStatus
+              #     - codecommit:CancelUploadArchive
+              #   Resource:
+              #     - !GetAtt CodeCommit.Arn
               - Effect: Allow
                 Action:
                   - codebuild:StartBuild
