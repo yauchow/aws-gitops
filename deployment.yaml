@@ -1,29 +1,38 @@
 release: 4.0
 # tasks - (optional) if no scheduled tasks exists just remove the tasks array
 tasks:
-    #service - must match the task's container name in the task definition
-  - service: service-x
-    # cwRuleName - Name of the cloudwatch events rule associated with the ECS service name .
-    cwRuleName: service-x-cw-rule
-    # image - New image that you want to deploy.
-    image: "11111111111.dkr.ecr.us-west-2.amazonaws.com/service-x:2.0.0"
-  - service: service-y
-    cwRuleName: service-y-cw-rule
-    image: "11111111111.dkr.ecr.us-west-2.amazonaws.com/service-y:4.0.0"
+  []
+  #   #service - must match the task's container name in the task definition
+  # - service: service-x
+  #   # cwRuleName - Name of the cloudwatch events rule associated with the ECS service name .
+  #   cwRuleName: service-x-cw-rule
+  #   # image - New image that you want to deploy.
+  #   image: "11111111111.dkr.ecr.us-west-2.amazonaws.com/service-x:2.0.0"
+
 services:
-    #service - must match the container name in the task definition
-  - service: service-a
+  #service - must match the container name in the task definition
+  - service: definitiv-dev-webapp
     # clusterName - Name of the ECS cluster where the service exists
-    clusterName: demo
+    clusterName: definitiv-dev-ecs-cluster
     # serviceName - Name of the ECS service
-    serviceName: demo-service-a-TS6BT1U6VQBG-Service-HTco3SKTy2J1
+    serviceName: definitiv-dev-webapp-service
     # image - New image that you want to deploy.
-    image: "11111111111.dkr.ecr.us-east-1.amazonaws.com/service-a:2.0.0"
-  - service: service-b
-    clusterName: demo
-    serviceName: demo-service-b-1OP5GR8JWHKX7-Service-ExB0A5Jxcnv2
-    image: "11111111111.dkr.ecr.us-east-1.amazonaws.com/service-b:3.0.0"
-  - service: service-c
-    clusterName: demo
-    serviceName: demo-service-c-1OP5GR8JWHKX7-Service-ExB0A5Jxcnv2
-    image: "11111111111.dkr.ecr.us-east-1.amazonaws.com/service-c:6.0.0"
+    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloapi:b11b462aaf278a76dcb37bc336b391dad39495c7"
+
+    #service - must match the container name in the task definition
+  - service: definitiv-dev-background-service
+    # clusterName - Name of the ECS cluster where the service exists
+    clusterName: definitiv-dev-ecs-cluster
+    # serviceName - Name of the ECS service
+    serviceName: definitiv-dev-background-service-service
+    # image - New image that you want to deploy.
+    image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloworker:b11b462aaf278a76dcb37bc336b391dad39495c7"
+
+  #service - must match the container name in the task definition
+  - service: definitiv-dev-redis
+    # clusterName - Name of the ECS cluster where the service exists
+    clusterName: definitiv-dev-ecs-cluster
+    # serviceName - Name of the ECS service
+    serviceName: definitiv-dev-redis
+    # image - New image that you want to deploy.
+    image: "redis:alpine"

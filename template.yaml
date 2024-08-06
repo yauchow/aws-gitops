@@ -6,7 +6,6 @@ Description: >-
   You will be billed for the AWS resources used if you create a stack from this template.
 
 Parameters:
-
   LogLevel:
     Type: String
     Description: Log level passed to Lambda python code
@@ -17,11 +16,23 @@ Parameters:
     Description: Number of days Logs will be retained
     Default: 7
 
+  GithubOwner:
+    Type: String
+
+  GithubRepo:
+    Type: String
+
+  GithubBranch:
+    Type: String
+    Default: main
+
+  GithubOAuthToken:
+    Type: String
+
 Transform:
   - AWS::Serverless-2016-10-31
 
 Resources:
-
   DeploymentNotificationTopic:
     Type: AWS::SNS::Topic
     Properties:
@@ -52,7 +63,7 @@ Resources:
                   - ecs:ListTasks
                 Effect: Allow
                 Resource:
-                  - '*'
+                  - "*"
               - Action:
                   - ecs:DescribeServices
                   - ecs:UpdateServices
@@ -69,7 +80,7 @@ Resources:
               - Action:
                   - iam:PassRole
                 Effect: Allow
-                Resource: '*'
+                Resource: "*"
                 Condition:
                   StringEquals:
                     iam:PassedToService:
@@ -300,7 +311,7 @@ Resources:
             Resource: arn:aws:states:::sns:publish
             Parameters:
               TopicArn: !Ref DeploymentNotificationTopic
-              Subject: '[ERROR]: Deployment Failed'
+              Subject: "[ERROR]: Deployment Failed"
               Message:
                 Alarm: Deployment Failed for statemachine
                 Error.$: $.Cause
@@ -428,11 +439,11 @@ Resources:
                     - arn:aws:states:${AWS::Region}:${AWS::AccountId}:activity:${Param}*
                     - Param: !GetAtt MultiServiceDeployerStateMachine.Name
 
-  CodeCommit:
-    Type: AWS::CodeCommit::Repository
-    Properties:
-      RepositoryDescription: ECS deployment config repo
-      RepositoryName: !Sub config-repo-${AWS::StackName}
+  #   CodeCommit:
+  #     Type: AWS::CodeCommit::Repository
+  #     Properties:
+  #       RepositoryDescription: ECS deployment config repo
+  #       RepositoryName: !Sub config-repo-${AWS::StackName}
 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
@@ -457,7 +468,7 @@ Resources:
             files: deployment.json
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image:  aws/codebuild/standard:5.0
+        Image: aws/codebuild/standard:5.0
         Type: LINUX_CONTAINER
       Name: !Sub codebuild-${AWS::StackName}
       ServiceRole: !Ref CodeBuildServiceRole
@@ -475,12 +486,15 @@ Resources:
             - Name: Source
               ActionTypeId:
                 Category: Source
-                Owner: AWS
-                Provider: CodeCommit
+                Owner: ThirdParty
+                Provider: GitHub
                 Version: "1"
               Configuration:
-                RepositoryName: !GetAtt CodeCommit.Name
-                BranchName: main
+                Owner: !Ref GithubOwner
+                Repo: !Ref GithubRepo
+                Branch: !Ref GithubBranch
+                PollForSourceChanges: false
+                OAuthToken: !Ref GithubOAuthToken
               OutputArtifacts:
                 - Name: SourceCode
               RunOrder: 1
@@ -514,11 +528,10 @@ Resources:
               InputArtifacts:
                 - Name: BuildOutput
               RunOrder: 1
-
-Outputs:
-  CodeCommitName:
-    Description: ECS deployment config repo name
-    Value: !GetAtt CodeCommit.Name
-  CodeCommitArn:
-    Description: ECS deployment config repo arn
-    Value: !GetAtt CodeCommit.Arn
+# Outputs:
+#   CodeCommitName:
+#     Description: ECS deployment config repo name
+#     Value: !GetAtt CodeCommit.Name
+#   CodeCommitArn:
+#     Description: ECS deployment config repo arn
+#     Value: !GetAtt CodeCommit.Arn
