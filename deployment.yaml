@@ -11,7 +11,7 @@ tasks:
 
 services:
   #service - must match the container name in the task definition
-  - service: definitiv-dev-webapp
+  - service: helloapi
     # clusterName - Name of the ECS cluster where the service exists
     clusterName: definitiv-dev-ecs-cluster
     # serviceName - Name of the ECS service
@@ -20,7 +20,7 @@ services:
     image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloapi:b11b462aaf278a76dcb37bc336b391dad39495c7"
 
     #service - must match the container name in the task definition
-  - service: definitiv-dev-background-service
+  - service: helloworker
     # clusterName - Name of the ECS cluster where the service exists
     clusterName: definitiv-dev-ecs-cluster
     # serviceName - Name of the ECS service
@@ -29,7 +29,7 @@ services:
     image: "306931650323.dkr.ecr.ap-southeast-2.amazonaws.com/helloworker:b11b462aaf278a76dcb37bc336b391dad39495c7"
 
   #service - must match the container name in the task definition
-  - service: definitiv-dev-redis
+  - service: redis
     # clusterName - Name of the ECS cluster where the service exists
     clusterName: definitiv-dev-ecs-cluster
     # serviceName - Name of the ECS service
